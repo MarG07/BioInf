@@ -1,14 +1,4 @@
 from pprint import pprint
-with open(r"C:\Users\marin\Downloads\small.fastq") as inp:
-    for line in inp:
-        print(line)
-        l=line.strip()
-with open(r"C:\Users\marin\Downloads\small_ref.fa") as f:
-    first=true
-    ref=''
-    ref_name=''
-    for line in f:
-        print(line)
 def Score(o,p):
     if o == p:
         return 1
@@ -70,10 +60,50 @@ def align(s,t):
             ta=t[j-1] + ta
             j=j-1    
             sa='-' + sa
-            
+    
     print(sa)
     print(ta)
-    
-    pprint(xs)
+    return i
 
+with open(r"C:\Users\marin\Downloads\small_ref.fa") as inp:
+    first = True
+    ref = ""
+    ref_name = ""
+    for line in inp:
+        if first:
+            ref_name=line.strip()
+            first = False
+            continue
+        ref += line.strip()
+
+print(ref)
+print(ref_name)
+
+with open(r"C:\Users\marin\Downloads\output.txt", 'w') as out:
+    with open(r"C:\Users\marin\Downloads\small.fastq", 'r') as inp:
+        counter = 1
+        read_name = ''
+        read = ''
+        read_quality = ''
+        for line in inp:
+            if counter == 1:
+                read_name = line.strip()
+                counter += 1
+                continue
+            if counter == 2:
+                read = line.strip()
+                counter += 1
+                continue
+            if counter == 3:
+                counter += 1
+                continue
+            if counter == 4:
+                counter = 1
+                read_quality = line.strip()
+                result = align(ref, read)
+            print(read_name,'\t',ref_name,'\t',result,'\t',read,'\t',read_quality,'\t',file=out)
+                
+        for line in inp:
+            l=line.strip()
+        
     
