@@ -101,7 +101,7 @@ with open(r"C:\Users\marin\Downloads\output.txt", 'w') as out:
                 counter = 1
                 read_quality = line.strip()
                 result = align(ref, read)
-            print(read_name,'\t',ref_name,'\t',result,'\t',read,'\t',read_quality,'\t',file=out)
+            print(read_name,ref_name,result,read,read_quality,sep='\t',file=out)
                 
         for line in inp:
             l=line.strip()

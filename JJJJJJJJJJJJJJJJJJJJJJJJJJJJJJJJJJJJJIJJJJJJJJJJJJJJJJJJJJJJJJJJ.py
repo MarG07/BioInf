@@ -78,6 +78,8 @@ def count_reads(filename):
 
     return gene_count
 
-count_reads(r'C:\Users\marin\Desktop\gene_counts\THYP2_22.sam')
-count_reads(r'C:\Users\marin\Desktop\gene_counts\TNOR2_22.sam')
-print(read_name,'\t',ref_name,'\t',result,'\t',read,'\t',read_quality,'\t',file=out)
+gene_count = count_reads(r'C:\Users\marin\Desktop\gene_counts\THYP2_22.sam')
+gene_countu= count_reads(r'C:\Users\marin\Desktop\gene_counts\TNOR2_22.sam')
+with open(r'C:\Users\marin\Desktop\BioInf\BioInf\ttt.txt', 'w') as ttt:
+    for name in gene_count:
+        print(name, gene_count[name], gene_countu[name], sep='\t',file=ttt)
