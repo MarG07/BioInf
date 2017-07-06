@@ -1,6 +1,9 @@
-def Sum(n):
-    for i in range(n-1):
-        if i/3==0:
-            print(i)
-        elif 1/5==0:
-            print(i)
+def Zad(n):
+    a = 0
+    m = 0
+    for a in range(n):
+        if a % 5==0:
+            m += a
+        elif a % 3==0:
+            m += a
+    return m
