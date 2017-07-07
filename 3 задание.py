@@ -1,4 +1,4 @@
-def Fun(n,m):
-    o = [n,m]
-    o.sort()
-    print(o)
+def Fun(n):
+    nina=n.strip().split(',')
+    nina.sort()
+    print(nina)
