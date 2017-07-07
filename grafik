@@ -1,0 +1,43 @@
+import math
+import matplotlib.pyplot as plt
+gene=0
+control=0
+case=0
+kol_control=0
+kol_case=0
+obshee=0
+log_f_c=[]
+obsheee=[]
+names={}
+with open(r'C:\Users\marin\Downloads\norm_camp.tsv') as inp:
+
+    spisok = inp.readline().strip().split('\t')
+    for name in spisok:
+        if name=='control':
+            kol_control=kol_control+1
+        elif name=='case':
+            kol_case=kol_case+1
+    for line in inp:
+        spisok=line.strip().split('\t')
+        for h in range(1, kol_control+1):
+            control=control+float(spisok[h])
+        control=control / kol_control
+        for n in range(kol_control+1, kol_control+kol_case+1):
+            case += float(spisok[n])
+        case=case/kol_case
+        print('Case: {}, control: {}'.format(case, control))
+        gene=case/control
+        for g in range(1, kol_control+kol_case+1):
+            obshee=obshee+float(spisok[g])
+            obshee=obshee / (kol_control+kol_case)
+        if math.log2(gene)<-0.1 or math.log2(gene)>0.1:
+            log_f_c.append (math.log2(gene))
+            obsheee.append(obshee)
+        names[spisok[0]] = (log_f_c, obshee)
+            
+with open(r'C:\Users\marin\Downloads\lkjhgfdsa.tsv','w') as out:
+    for key, value in names.items():
+        out.write('{}\t{}\n'.format(key, value[0]
+                                    ))
+plt.plot(obsheee,log_f_c,'ro')
+plt.show()
