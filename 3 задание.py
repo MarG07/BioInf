@@ -1,4 +1,3 @@
-def Fun(n):
-    nina=n.strip().split(',')
-    nina.sort()
-    print(nina)
+names = ['zzz', 'bbb','aaa', 'qqq']
+names.sort()
+print(', '.join(names)
