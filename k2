@@ -1,0 +1,19 @@
+def fun(n):
+    d=1
+    g=''
+    v=''
+    i=''
+    name=n.split(' ')
+    for i in name:
+        if name[i] == name[i-1]:
+            g=name[i]
+            d=d+1
+        elif name[i]!=name[i-1] and name[i-1]==name[i-2]:
+            if d>h:
+                h=d
+                v=g
+                d=0
+            else:
+                d=0
+    return(v)
+    
