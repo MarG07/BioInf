@@ -1,0 +1,6 @@
+def fun(n,m,f,h):
+    matrix=0
+    n=f
+    m=h
+    matrix=[n,m]
+print (matrix)
