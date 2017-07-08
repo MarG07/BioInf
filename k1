@@ -1,0 +1,17 @@
+def fun(n):
+    d=1
+    h=0
+    name=n.split(',')
+    for i in range(len(name)):
+        name[i] = int(name[i])
+    for i in name:
+        if name[i] == name[i-1]:
+            d=d+1
+        elif name[i]!=name[i-1] and name[i-1]==name[i-2]:
+            if d>h:
+                h=d
+                d=0
+            else:
+                d=0
+    print(h)
+    
