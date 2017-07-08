@@ -33,11 +33,14 @@ with open(r'C:\Users\marin\Downloads\norm_camp.tsv') as inp:
         if math.log2(gene)<-0.1 or math.log2(gene)>0.1:
             log_f_c.append (math.log2(gene))
             obsheee.append(obshee)
-        names[spisok[0]] = (log_f_c, obshee)
-            
+            names[spisok[0]] = (log_f_c, obshee)            
+        obshee=0
+        case=0
+        control=0
 with open(r'C:\Users\marin\Downloads\lkjhgfdsa.tsv','w') as out:
     for key, value in names.items():
         out.write('{}\t{}\n'.format(key, value[0]
                                     ))
 plt.plot(obsheee,log_f_c,'ro')
 plt.show()
+#Саша утром нашел баг... все исправлено 
