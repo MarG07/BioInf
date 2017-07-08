@@ -1,3 +1,5 @@
-names = ['zzz', 'bbb','aaa', 'qqq']
-names.sort()
-print(', '.join(names)
+names=[]
+def Fun(n):
+    names=n.split(',')
+    names.sort()
+    print(', '.join(names))
