@@ -1,0 +1,95 @@
+def fun_list_1(n):
+    a=0
+    for i in range(n):
+        a=a+i*(i-1)
+    return(a)
+
+def fun_list_2(a,b,c):
+    if a==b:
+        if a==c:
+            print(3)
+        else:
+            print(2)
+    elif a==c :
+            print(2)
+    else:
+        print(0)
+
+#def fun_list_3(n):
+
+
+
+def fun_list_4(n):
+    xs = [1, 1]
+
+    for k in range(2, n + 1):
+        xs.append(xs[k - 1] + xs[k - 2])
+    return xs[n]
+
+def fun_list_5(n):
+    ad = []
+    j = 0
+    for i in range(n):
+        ad.append([])
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                ad[i].append(1)
+            else:
+                ad[i].append(0)
+    return a
+
+
+    
+def fun_com_1(n):
+    a=0
+    b=0
+    d=1
+    maximum=0
+    for i in range(len(n)):
+        a=n[i]
+        if a==b:
+            d=d+1
+        else:
+            d=1
+        if d>maximum:
+            maximum=d
+        b=a
+    return(maximum)
+
+def fun_com_2(n):
+    names=[]
+    d=1
+    g=''
+    b=''
+    maximum=0
+    names=n.split()
+    names.sort()
+    for i in range(len(names)):
+        a=names[i]
+        if a==b:
+            d=d+1
+        b=a
+        if d>maximum:
+            maximum=d
+            g=a
+    return(g)
+
+def fun_com_3(a, i, j):
+    for k in range(len(a)):
+        a[k][i], a[k][j] = a[k][j], a[k][i]
+    return a
+
+def fun_com_4(n):
+    a = []
+    gl = 'aeiouy'
+    sog = 'bfjpvz'
+    alph = 'abcdefghijklmnopqrstuvwxyz'
+    a = list(n)
+    for i in range(len(n)):
+        if a[i] in gl:
+            a[i] = sog[g.find(a[i])]
+        elif a[i] in alph:
+            a[i] = alph.find(a[i])           
+    return a
+    print(fun_com_4(input('hgfds')))
