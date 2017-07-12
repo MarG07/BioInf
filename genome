@@ -1,0 +1,198 @@
+def fun(a):
+    #a=[1,0,3,7,-5,30,61,17,42]
+    visited=[False,False,False,False,False,False,False,False,False]
+    a_list={0:[4,8], 1:[7], 2:[3,4,5,8], 3:[2], 4:[0,2], 5:[2,7], 6:[], 7:[1,5], 8:[0,2]}
+    stack=[0]
+    maximum=0
+    index=0
+    while stack:
+        current_v=stack.pop()
+        visited[current_v]=True
+        n=a_list[current_v]
+        for neighbour in n:
+            if False == visited[neighbour]:
+                stack.append(neighbour)
+        if a[current_v]> maximum:
+            index=current_v
+            maximum=a[current_v]
+    print (maximum,index)
+from collections import deque
+def purpose(a):
+    #a=[1,0,3,7,-5,30,61,17,42]
+    visited=[False,False,False,False,False,False,False,False,False]
+    a_list={0:[4,8], 1:[7], 2:[3,4,5,8], 3:[2], 4:[0,2], 5:[2,7], 6:[], 7:[1,5], 8:[0,2]}
+    queue=deque()
+    queue.append(0)
+    maximum=0
+    index=0
+    while queue:
+        current_v=queue.popleft()
+        visited[current_v]=True
+        n=a_list[current_v]
+        for neighbour in n:
+            if False == visited[neighbour] and neighbour not in queue:
+                queue.append(neighbour)
+        if a[current_v]> maximum:
+            index=current_v
+            maximum=a[current_v]
+    print (maximum,index)
+
+def extract_kmers(rid,m):
+    kmers=[]
+    for b in range(len(n)-m+1):
+        kmers.append(n[b:b+m])
+    return (kmers)
+
+def get_kmers(rid,m):
+    kmers=[]
+    for a in range(len(rid)-m+1):
+        kmers.append(rid[a:a+m])
+
+    return kmers
+
+def fill_graph_out(kmers, out,k):
+    for i in range(len(kmers) - 1):
+        if kmers[i] not in out:
+            out[kmers[i]]={}
+        if kmers[i+1] not in out[kmers[i]]:
+            out[kmers[i]][kmers[i+1]] = [0, kmers[i] + kmers[i+1][k:]]
+        out[kmers[i]][kmers[i+1]][0] += 1
+    return out
+
+def full_graph_in(kmers, in_,k):
+    for i in range(len(kmers) - 1):
+        if kmers[i+1] not in in_:
+            in_[kmers[i+1]]={}
+        if kmers[i] not in in_[kmers[i+1]]:
+            in_[kmers[i+1]][kmers[i]] = [0, kmers[i] + kmers[i + 1][k:]]
+        in_[kmers[i+1]][kmers[i]][0] += 1
+    return in_
+
+def condense(out,in_, k):
+    out_keys = list(out.keys())
+    
+    for current in out_keys:
+        if current not in in_:
+            continue
+        if len(out[current])==1:
+            if len(in_[current])==1:
+                prev=list(in_[current].keys())[0]
+                next_=list(out[current].keys())[0]
+                prev_seq=out[prev][current][1]
+                next_seq=out[current][next_][1]
+                new_seq = prev_seq+next_seq[k:]
+                prev_cov=out[prev][current][0]
+                next_cov=out[current][next_][0]
+                new_len=len(new_seq)
+                new_cov=(len(prev_seq)*prev_cov+next_cov*len(next_seq))/new_len
+                out[prev][next_]=[new_cov,new_seq]
+                in_[next_][prev]=[new_cov,new_seq]
+                
+                del out[prev][current]
+                del in_[next_][current]
+                del out[current]
+                del in_[current]
+
+
+def get_awg(graph_out):
+    total_cov=0
+    total_len=0
+    list_=[]
+    total_edge_number=0
+    for key in graph_out:
+        dictionary=graph_out[key]
+        for keys in dictionary:
+            list_=dictionary[keys]
+            total_cov+=list_[0]
+            total_len+=len(list_[1])
+            total_edge_number+=1
+
+    avg_cov=total_cov/total_edge_number
+    avg_len=total_len/total_edge_number
+    return avg_cov,avg_len
+
+def remove_tips(graph_in,graph_out,avg_len,avg_cov):
+    deleted = False
+    
+    for key in graph_in:
+        if key in graph_out:
+            continue
+
+        if len(graph_in[key]) > 1:
+            continue
+
+        parent_key = list(graph_in[key].keys())[0]
+        edge = graph_in[key][parent_key]
+
+        if edge[0] < avg_cov and len(edge[1]) < avg_len:
+            del graph_out[parent_key][key]
+            del graph_in[key]
+            deleted = True
+
+    return deleted           
+            
+def dump_graph(outgoing, viz_fname):
+    with open(viz_fname, 'w') as out_f:
+        print('digraph ag{', file=out_f)
+        for left, dict in outgoing.items():
+            for right in dict:
+                round_coverage = dict[right]
+                print(left + '[label="{}"]'.format(left), file=out_f)
+                print(right + '[label="{}"]'.format(right), file=out_f)
+                print(
+                    left + ' -> ' + right +
+                    '[label="C = {}"]'.format(round_coverage),
+                    file=out_f)
+        print('}', file=out_f)
+
+def read_fastq(file_name):
+    with open(file_name, 'r') as inp:
+        counter = 1
+        read_name = ''
+        read = ''
+        reads = []
+        read_quality = ''
+        for line in inp:
+            if counter == 1:
+                read_name = line.strip()
+                counter += 1
+                continue
+            if counter == 2:
+                reads.append(line.strip())
+                counter += 1
+                continue
+            if counter == 3:
+                counter += 1
+                continue
+            if counter == 4:
+                counter = 1
+                read_quality = line.strip()                
+        for line in inp:
+            l=line.strip()
+    return reads
+
+def create_graph_from_fastq(file_name, k):
+    out = {}
+    in_ = {}
+    reads = read_fastq(file_name)
+    for read in reads:
+        kmers = get_kmers(read, k)
+        fill_graph_out(kmers, out, k)
+        full_graph_in(kmers, in_, k)
+
+    return out, in_
+
+
+def main():
+    rid = 'ACGGTCAGTTCGGTC'
+    k = 14
+    out, in_ = create_graph_from_fastq(r'C:\Users\marin\Downloads\s_6.first1000.fastq', k)
+    condense(out, in_, k)
+    avg_cov, avg_len = get_awg(out)
+    print(get_awg(out))
+    #remove_tips(in_, out, avg_len, avg_cov)
+    dump_graph(out, r"C:\Users\marin\Downloads\graph.txt")
+
+
+dictt={'AT':{'AT':[2,'AT'], 'TC':[1,'CT']}, 'GA':{'AA':[10,'AA']}}
+print(get_awg(dictt))
