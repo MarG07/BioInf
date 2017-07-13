@@ -1,0 +1,45 @@
+from pprint import pprint
+def PGMA(D, tree):
+    if len(D)==0:
+        return tree
+    minimum = 1000000
+    main_pair=['','']
+    for symbol_1 in D:
+        for symbol_2 in D[symbol_1]:
+            if D[symbol_1][symbol_2] < minimum:
+                min_pair[1]=symbol_1
+                min_pair[0]=symbol_2
+                new_symbol=min_pair[1]+min_pair[0]
+
+    print('Min pair: {min_pair}'.format(min_pair=min_pair))
+    new_distance=0
+    for key in D[min_pair[0]]:
+        if key in min_pair:
+            continue
+        new_distance=(D[min_pair[0]][key]+D[min_pair[1]][key])/2
+        if ''.join(min_pair) in D:
+            D[''.join(min_pair)[key]= new_distance
+        else:D[''.join(min_pair)] ={key:new_distance}
+        print(D)
+        D[key][''.join(min_pair)]=new_distsnce
+    prev_value_1=1
+    prev_value_2=1
+    if min_pair[0] in tree:
+        prev_value1 = tree[min_pair[0]]
+        del tree[min_pair[0]]
+    if min_pair[1] in tree:
+        prev_value2 = tree[min_pair[1]]
+        del tree[min_pair[1]]
+
+    tree[''.join(min_pair)]={min_pair[0]: prev_value1}
+    tree[''.join(min_pair)][min_pair[1]] = prev_value2
+
+    del d[min_pair[0]]
+    del d[min_pair[1]]
+    for key in d:
+        if key == ''.join(min_pair):
+            continue
+        print(key)
+        del d[key][min_pair[0]]
+        del d[key][min_pair[1]]
+    return pgma(d, tree)
